@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import CityList from './components/CityList';
+import WeatherPage from './components/WeatherPage';
+import { WeatherProvider } from './contexts/WeatherContext';
+import styled from 'styled-components';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const Nav = styled.nav`
+    background-color: #333;
+    padding: 10px;
+`;
+
+const NavLink = styled(Link)`
+    color: white;
+    margin-right: 20px;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+`;
+
+const App: React.FC = () => {
+    return (
+        <WeatherProvider>
+            <Router>
+                <Nav>
+                    <NavLink to="/">Home</NavLink>
+                </Nav>
+                <Routes>
+                    <Route path="/" element={<CityList />} />
+                    <Route path="/weather/:cityName" element={<WeatherPage />} />
+                </Routes>
+            </Router>
+        </WeatherProvider>
+    );
+};
 
 export default App;
